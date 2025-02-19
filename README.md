@@ -1,43 +1,34 @@
-# pytorch
+# PyTorch
 - 基礎pytorch,主要無縫進入transformer學習
 - [pytorch官方教學網站](https://pytorch.org/tutorials/)
 
 ## PyTorch基礎
-
-- pyTorch Tensors
-
- https://pytorch.org/tutorials/beginner/introyt/tensors_deeper_tutorial.html
+### [pyTorch Tensors](./pyTorch_Tensors)
+- PyTorch 中的核心數據結構，類似於 NumPy 陣列，但支援 GPU 運算。
+-  需要理解 .cuda() 如何將張量搬到 GPU。
  
-- Autograd(自動微分)
+### [Autograd(自動微分)](./Autograd)
+- 反向傳播（backpropagation）概念。
+- backward() 計算梯度，.zero_grad() 重置梯度。
 
-https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html
+### [Optimizers(優化器)](./Optimizers)
+- 作用：更新模型權重（如 Adam）。
+- optimizer.step() 用來執行梯度下降。
 
-- Optimizers(優化器)
-
-- Loss function(損失函數)
-
-https://pytorch.org/docs/stable/optim.html
-
-- Loss function(損失函數)
-
-https://neptune.ai/blog/pytorch-loss-functions
+### [Loss function(損失函數)](./Loss_function)
+- 定義單個訓練樣本與真實值之間的誤差
 
 ## PyTorch深度學習基礎
 
-- 建立一個簡單的神經網路
+### [建立一個簡單的神經網路](./簡單的神經網路)
 
-https://pytorch.org/tutorials/beginner/blitz/neural_networks_tutorial.html
+### [訓練與測試模型](./訓練和測試模型)
 
-- 訓練與測試模型
-
-https://pytorch.org/tutorials/beginner/basics/optimization_tutorial.html
 
 ## PyTorch與NLP
 
-- 使用DataLoader載入NLP數據
+### [使用DataLoader載入NLP數據](./DataLoader)
 
-https://pytorch.org/tutorials/beginner/basics/data_tutorial.html
-
-- 處理NLP文本的PyTorch教學
+### [PyTorch處理NLP文本](./PyTorch處理NLP文本)
 
 
