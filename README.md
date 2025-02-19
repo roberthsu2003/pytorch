@@ -18,6 +18,10 @@ https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html
 
 https://pytorch.org/docs/stable/optim.html
 
+- Loss function(損失函數)
+
+https://neptune.ai/blog/pytorch-loss-functions
+
 ## PyTorch深度學習基礎
 
 - 建立一個簡單的神經網路
