@@ -13,6 +13,7 @@
 https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html
 
 - Optimizers(優化器)
+- Loss function(損失函數)
 
 https://pytorch.org/docs/stable/optim.html
 
