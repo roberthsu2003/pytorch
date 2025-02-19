@@ -6,6 +6,7 @@
 - pyTorch Tensors
 - Autograd(自動微分)
 - Optimizers(優化器)
+- Loss function(損失函數)
 
 ## PyTorch深度學習基礎
 
