@@ -1,0 +1,1 @@
+<a href="https://colab.research.google.com/github/roberthsu2003/pytorch/blob/main/p1ch2/1_making_sure_things_work.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
