@@ -288,3 +288,216 @@ Autograd 在深度學習中有以下幾個關鍵優勢：
 
 ### 總結
 **Autograd** 是 PyTorch 中實現自動微分的核心工具。它通過動態構建計算圖，追蹤 tensor 上的運算，並在反向傳播時自動計算梯度。它的基礎原理依賴於計算圖和鏈式法則，主要用途是幫助深度學習模型在訓練過程中計算參數梯度，從而實現參數更新和損失優化。無論是簡單的線性回歸還是複雜的神經網絡，Autograd 都讓梯度計算變得簡單、高效，是 PyTorch 易用性和靈活性的重要支柱。
+
+
+## 建立最簡單的模型
+
+當然可以！作為 PyTorch 的初學者，我會給你一個非常簡單的模型範例，並詳細講解每一步。這個範例將展示如何使用 PyTorch 構建一個基本的線性回歸模型，並進行訓練。以下是完整的範例和逐步解釋。
+
+---
+
+## 範例：簡單的線性回歸模型
+
+### 目標
+我們要構建一個簡單的線性回歸模型，讓它學習一個線性關係。例如，假設我們有數據點 `(x, y)`，其中 `y = 2 * x + 1`。我們將訓練模型來預測這個關係。
+
+---
+
+### 步驟 1：導入 PyTorch
+首先，我們需要導入必要的 PyTorch 模塊：
+
+```python
+import torch
+import torch.nn as nn
+import torch.optim as optim
+```
+
+**解釋**：
+- `torch`：PyTorch 的核心庫，提供基本的數據結構（如 tensor）和運算功能。
+- `torch.nn`：提供構建神經網絡的工具，例如層和損失函數。
+- `torch.optim`：提供優化器，用來更新模型參數。
+
+---
+
+### 步驟 2：準備數據
+接下來，我們創建簡單的輸入和輸出數據：
+
+```python
+x = torch.tensor([[1.0], [2.0], [3.0], [4.0]])
+y = torch.tensor([[3.0], [5.0], [7.0], [9.0]])  # y = 2*x + 1
+```
+
+**解釋**：
+- `x` 是輸入數據，包含 4 個值：1.0, 2.0, 3.0, 4.0。
+- `y` 是對應的輸出數據，按照公式 `y = 2*x + 1` 計算得出：3.0, 5.0, 7.0, 9.0。
+- 這裡用簡單的數據幫助你理解訓練過程，數據格式是 tensor（PyTorch 的基本數據結構）。
+
+---
+
+### 步驟 3：定義模型
+我們定義一個簡單的線性回歸模型：
+
+```python
+class LinearRegressionModel(nn.Module):
+    def __init__(self):
+        super(LinearRegressionModel, self).__init__()
+        self.linear = nn.Linear(1, 1)  # 輸入和輸出都是 1 維
+
+    def forward(self, x):
+        return self.linear(x)
+```
+
+**解釋**：
+- **模型類**：我們創建了一個名為 `LinearRegressionModel` 的類，繼承自 `nn.Module`（PyTorch 中所有模型的基類）。
+- **`__init__`**：初始化函數中，定義了一個線性層 `nn.Linear(1, 1)`，表示輸入和輸出各有 1 個特徵。這層會自動學習權重和偏置。
+- **`forward`**：定義前向傳播，輸入 `x` 通過線性層 `self.linear` 得到輸出。
+
+---
+
+### 步驟 4：創建模型實例
+有了模型定義後，我們創建一個實例：
+
+```python
+model = LinearRegressionModel()
+```
+
+**解釋**：
+- `model` 是 `LinearRegressionModel` 類的實例，之後可以用它來進行預測和訓練。
+
+---
+
+### 步驟 5：定義損失函數和優化器
+我們需要告訴模型如何衡量誤差並更新參數：
+
+```python
+criterion = nn.MSELoss()  # 均方誤差損失
+optimizer = optim.SGD(model.parameters(), lr=0.01)  # 隨機梯度下降
+```
+
+**解釋**：
+- **`criterion`**：損失函數使用均方誤差（MSE），計算預測值與真實值之間的差異。
+- **`optimizer`**：優化器使用隨機梯度下降（SGD），學習率 `lr` 設為 0.01。`model.parameters()` 提供模型中需要優化的參數（權重和偏置）。
+
+---
+
+### 步驟 6：訓練模型
+現在，我們訓練模型來學習數據的關係：
+
+```python
+num_epochs = 1000  # 訓練 1000 次
+for epoch in range(num_epochs):
+    # 前向傳播
+    outputs = model(x)
+    loss = criterion(outputs, y)
+    
+    # 反向傳播和優化
+    optimizer.zero_grad()  # 清空梯度
+    loss.backward()        # 計算梯度
+    optimizer.step()       # 更新參數
+    
+    # 每 100 次打印損失
+    if (epoch+1) % 100 == 0:
+        print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
+```
+
+**解釋**：
+- **`num_epochs`**：訓練次數設為 1000。
+- **訓練循環**：
+  1. **前向傳播**：
+     - `outputs = model(x)`：將輸入 `x` 送入模型，得到預測值。
+     - `loss = criterion(outputs, y)`：計算預測值與真實值 `y` 的誤差。
+  2. **反向傳播和優化**：
+     - `optimizer.zero_grad()`：清空之前的梯度（PyTorch 會累積梯度，需手動清零）。
+     - `loss.backward()`：計算梯度（誤差對參數的影響）。
+     - `optimizer.step()`：根據梯度更新模型參數。
+  3. **打印損失**：每 100 次訓練打印一次損失，觀察訓練效果。
+
+---
+
+### 步驟 7：查看訓練結果
+訓練完成後，檢查模型學到的參數：
+
+```python
+print(f'訓練後的模型參數：')
+print(f'權重：{model.linear.weight.item():.4f}')
+print(f'偏置：{model.linear.bias.item():.4f}')
+```
+
+**解釋**：
+- 理想情況下，模型會學到 `y = 2*x + 1` 中的權重 2.0 和偏置 1.0。
+- `model.linear.weight` 是線性層的權重，`model.linear.bias` 是偏置。
+
+---
+
+### 完整代碼
+以下是完整的範例代碼：
+
+```python
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+# 準備數據
+x = torch.tensor([[1.0], [2.0], [3.0], [4.0]])
+y = torch.tensor([[3.0], [5.0], [7.0], [9.0]])  # y = 2*x + 1
+
+# 定義模型
+class LinearRegressionModel(nn.Module):
+    def __init__(self):
+        super(LinearRegressionModel, self).__init__()
+        self.linear = nn.Linear(1, 1)  # 輸入和輸出都是 1 維
+
+    def forward(self, x):
+        return self.linear(x)
+
+# 創建模型實例
+model = LinearRegressionModel()
+
+# 定義損失函數和優化器
+criterion = nn.MSELoss()  # 均方誤差損失
+optimizer = optim.SGD(model.parameters(), lr=0.01)  # 隨機梯度下降
+
+# 訓練模型
+num_epochs = 1000  # 訓練 1000 次
+for epoch in range(num_epochs):
+    outputs = model(x)
+    loss = criterion(outputs, y)
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+    if (epoch+1) % 100 == 0:
+        print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
+
+# 查看訓練後的參數
+print(f'訓練後的模型參數：')
+print(f'權重：{model.linear.weight.item():.4f}')
+print(f'偏置：{model.linear.bias.item():.4f}')
+```
+
+---
+
+### 預期輸出
+運行代碼後，你會看到損失逐漸減小，最終接近 0。訓練結束後，參數應該接近理想值。例如：
+
+```
+Epoch [100/1000], Loss: 0.1234
+Epoch [200/1000], Loss: 0.0567
+...
+Epoch [1000/1000], Loss: 0.0000
+訓練後的模型參數：
+權重：2.0000
+偏置：1.0000
+```
+
+---
+
+### 總結
+這個範例展示了使用 PyTorch 構建和訓練模型的基本步驟：
+1. **導入庫**：準備 PyTorch 工具。
+2. **準備數據**：創建輸入和輸出。
+3. **定義模型**：構建簡單的線性回歸模型。
+4. **設置訓練工具**：選擇損失函數和優化器。
+5. **訓練模型**：通過前向傳播和反向傳播更新參數。
+6. **檢查結果**：驗證模型是否學到正確的關係。
+
+
